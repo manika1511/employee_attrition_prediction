@@ -17,7 +17,8 @@ ggplot(data, aes(x=Attrition, y=JobSatisfaction, fill=Attrition)) + geom_violin(
 #boxplot between monthly income and attrition
 ggplot(data,aes(Attrition,MonthlyIncome,fill=Attrition))+geom_boxplot()
 
-
+#jitter plot between monthly income and attrition
+ggplot(data,aes(Attrition,MonthlyIncome,color=Attrition))+geom_jitter()
 
 
 
