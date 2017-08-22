@@ -22,6 +22,8 @@ ggplot(data,aes(Attrition,MonthlyIncome,fill=Attrition))+geom_boxplot()
 #jitter plot between monthly income and attrition
 ggplot(data,aes(Attrition,MonthlyIncome,color=Attrition))+geom_jitter()
 
+#heat map between monthly income, joblevel, attrition
+ggplot(data,aes(data$MonthlyIncome,data$JobLevel,fill=Attrition))+geom_tile()
 
 
 
