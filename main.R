@@ -13,3 +13,12 @@ ggplot(data,aes(data$MonthlyIncome,data$WorkLifeBalance, color=Attrition))+geom_
 
 #violin plot between attrition and job satisfaction
 ggplot(data, aes(x=Attrition, y=JobSatisfaction, fill=Attrition)) + geom_violin() + theme_bw()
+
+#boxplot between monthly income and attrition
+ggplot(data,aes(Attrition,MonthlyIncome,fill=Attrition))+geom_boxplot()
+
+
+
+
+
+
