@@ -10,6 +10,8 @@ library(ggplot2)
 
 #scatter plot between monthly income, work life balance and attrition
 ggplot(data,aes(data$MonthlyIncome,data$WorkLifeBalance, color=Attrition))+geom_point()
+#scatter plot between monthly income, JobLevel and attrition
+ggplot(data,aes(data$MonthlyIncome,data$JobLevel, color=Attrition))+geom_point()
 
 #violin plot between attrition and job satisfaction
 ggplot(data, aes(x=Attrition, y=JobSatisfaction, fill=Attrition)) + geom_violin() + theme_bw()
