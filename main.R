@@ -22,6 +22,12 @@ correlation_matrix=cor(cleaned_data[sapply(cleaned_data, is.numeric)])
 highlyCorrelated = findCorrelation(correlation_matrix, cutoff=0.8)
 highlyCorrelated
 
+#Step:4 Feature Selection
+#For K-neighbours algorithm
+control=trainControl(method="repeatedcv", number=10, repeats=3)
+model=train(Attrition~., cleaned_data, method="kknn", preProcess="scale", trControl=control)
+importance=varImp(model, scale=FALSE)
+importance
 
 #Try different plots
 library(ggplot2)
