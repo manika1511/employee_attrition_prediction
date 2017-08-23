@@ -5,6 +5,13 @@ library(utils)
 setwd("~/Documents/stanford/datascience/employee_attrition_prediction")
 data = read.csv("HR-Employee-Attrition.csv") 
 
+#Step:2 Cleaning data
+#Removing columns which have same value for all
+cleaned_data=data[,-c(9,22,27)]
+
+
+
+
 #Try different plots
 library(ggplot2)
 
@@ -29,11 +36,3 @@ ggplot(data,aes(data$MonthlyIncome,data$JobLevel,fill=Attrition))+geom_tile()
 ggplot(data,aes(Attrition,YearsSinceLastPromotion,fill=Attrition))+geom_jitter()
 ggplot(data,aes(Attrition,MaritalStatus,color=Attrition))+geom_jitter()
 
-cleaned_data = data[,-c(9,22,27)]
-control <- trainControl(method="repeatedcv", number=10, repeats=3)
-model <- train(Attrition~., cleaned_data, method="kknn", preProcess="scale", trControl=control)
-importance <- varImp(model, scale=FALSE)
-importance
-
-model_cl=train(Attrition ~., cleaned_data, method="nnet")
-model_cl$finalModel
