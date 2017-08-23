@@ -23,7 +23,6 @@ highlyCorrelated = findCorrelation(correlation_matrix, cutoff=0.8)
 highlyCorrelated
 
 
-
 #Try different plots
 library(ggplot2)
 
