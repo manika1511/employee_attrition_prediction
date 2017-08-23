@@ -8,10 +8,10 @@ data = read.csv("HR-Employee-Attrition.csv")
 #Step:2 Cleaning data
 #Removing columns which have same value for all
 cleaned_data=data[,-c(9,22,27)]
-#removing all rows with any column as NA
+#replacing all blank cells with NA
+cleaned_data[cleaned_data==""]=NA
+#removing all rows with any blank cell
 cleaned_data=cleaned_data[complete.cases(cleaned_data), ]
-
-
 
 #Try different plots
 library(ggplot2)
