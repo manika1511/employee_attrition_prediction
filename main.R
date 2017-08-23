@@ -7,11 +7,22 @@ data = read.csv("HR-Employee-Attrition.csv")
 
 #Step:2 Cleaning data
 #Removing columns which have same value for all
-cleaned_data=data[,-c(9,22,27)]
+cleaned_data=data[,-c(9,10,22,27)]
 #replacing all blank cells with NA
 cleaned_data[cleaned_data==""]=NA
 #removing all rows with any blank cell
 cleaned_data=cleaned_data[complete.cases(cleaned_data), ]
+
+#Step:3 Find highly correlated features
+library(mlbench)
+library(caret)
+
+set.seed(7)
+correlation_matrix=cor(cleaned_data[sapply(cleaned_data, is.numeric)])
+highlyCorrelated = findCorrelation(correlation_matrix, cutoff=0.8)
+highlyCorrelated
+
+
 
 #Try different plots
 library(ggplot2)
