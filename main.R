@@ -25,5 +25,15 @@ ggplot(data,aes(Attrition,MonthlyIncome,color=Attrition))+geom_jitter()
 #heat map between monthly income, joblevel, attrition
 ggplot(data,aes(data$MonthlyIncome,data$JobLevel,fill=Attrition))+geom_tile()
 
+#boxplot between monthly income and attrition
+ggplot(data,aes(Attrition,YearsSinceLastPromotion,fill=Attrition))+geom_jitter()
+ggplot(data,aes(Attrition,MaritalStatus,color=Attrition))+geom_jitter()
 
+cleaned_data = data[,-c(9,22,27)]
+control <- trainControl(method="repeatedcv", number=10, repeats=3)
+model <- train(Attrition~., cleaned_data, method="kknn", preProcess="scale", trControl=control)
+importance <- varImp(model, scale=FALSE)
+importance
 
+model_cl=train(Attrition ~., cleaned_data, method="nnet")
+model_cl$finalModel
