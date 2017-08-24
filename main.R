@@ -90,6 +90,10 @@ model_trained_svm=train(Attrition ~., training_svm, method="svmLinear")
 #Step:8 Predict using model and test dataset
 predicted_attrition_svm=predict(model_trained_svm,testing_svm)
 
+#Step:9 Measure Accuracy (0.8802721)
+model_accuracy_svm=sum(predicted_attrition_svm == testing_svm$Attrition)/nrow(testing_svm)
+model_accuracy_svm
+
 #Try different plots
 library(ggplot2)
 
