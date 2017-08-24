@@ -42,7 +42,7 @@ model_trained=train(Attrition ~., training, method="kknn")
 #Step:8 Predict using model and test dataset
 predicted_attrition=predict(model_trained,testing)
 
-#Step:9 Measure Accuracy
+#Step:9 Measure Accuracy (0.84897976)
 model_accuracy=sum(predicted_attrition == testing$Attrition)/nrow(testing)
 model_accuracy
 
