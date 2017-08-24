@@ -22,9 +22,8 @@ correlation_matrix=cor(cleaned_data[sapply(cleaned_data, is.numeric)])
 highlyCorrelated = findCorrelation(correlation_matrix, cutoff=0.8)
 highlyCorrelated
 
-#Model-1: (k-Nearest Neighbors)
+#Model-1: k-Nearest Neighbors
 #Step:4 Feature Selection
-#For K-neighbours algorithm
 control=trainControl(method="repeatedcv", number=10, repeats=3)
 model=train(Attrition~., cleaned_data, method="kknn", preProcess="scale", trControl=control)
 importance=varImp(model, scale=FALSE)
@@ -46,6 +45,17 @@ predicted_attrition=predict(model_trained,testing)
 #Step:9 Measure Accuracy (0.84897976)
 model_accuracy=sum(predicted_attrition == testing$Attrition)/nrow(testing)
 model_accuracy
+
+#Model-2: Random Forest
+#Step:4 Feature Selection
+control_rf=trainControl(method="repeatedcv", number=10, repeats=3)
+model_rf=train(Attrition~., cleaned_data, method="rf", preProcess="scale", trControl=control_rf)
+importance_rf=varImp(model_rf, scale=FALSE)
+importance_rf
+
+#Step:5 Filter data to contain only selected features
+final_data_rf=cleaned_data[, -c(3,5,7,8,10,13,14,16,22,29)]
+
 
 #Try different plots
 library(ggplot2)
