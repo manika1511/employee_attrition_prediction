@@ -77,6 +77,9 @@ model_svm=train(Attrition~., cleaned_data, method="svmLinear", preProcess="scale
 importance_svm=varImp(model_svm, scale=FALSE)
 importance_svm
 
+#Step:5 Filter data to contain only selected features
+final_data_svm=cleaned_data[, -c(3,7,8,10,11,18,19,21,22,23)]
+
 
 #Try different plots
 library(ggplot2)
