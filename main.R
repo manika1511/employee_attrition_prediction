@@ -39,6 +39,10 @@ testing = final_data[seq(2,nrow(final_data), 2),]
 #Step:7 Train the model
 model_trained=train(Attrition ~., training, method="kknn")
 
+#Step:8 Predict using model and test dataset
+predicted_attrition=predict(model_trained,testing)
+
+
 #Try different plots
 library(ggplot2)
 
