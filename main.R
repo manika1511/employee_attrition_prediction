@@ -22,6 +22,7 @@ correlation_matrix=cor(cleaned_data[sapply(cleaned_data, is.numeric)])
 highlyCorrelated = findCorrelation(correlation_matrix, cutoff=0.8)
 highlyCorrelated
 
+#Model-1: (k-Nearest Neighbors)
 #Step:4 Feature Selection
 #For K-neighbours algorithm
 control=trainControl(method="repeatedcv", number=10, repeats=3)
