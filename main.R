@@ -66,6 +66,10 @@ model_trained_rf=train(Attrition ~., training_rf, method="rf")
 #Step:8 Predict using model and test dataset
 predicted_attrition_rf=predict(model_trained_rf,testing_rf)
 
+#Step:9 Measure Accuracy (0.8530612)
+model_accuracy_rf=sum(predicted_attrition_rf == testing_rf$Attrition)/nrow(testing_rf)
+model_accuracy_rf
+
 #Try different plots
 library(ggplot2)
 
