@@ -42,6 +42,9 @@ model_trained=train(Attrition ~., training, method="kknn")
 #Step:8 Predict using model and test dataset
 predicted_attrition=predict(model_trained,testing)
 
+#Step:9 Measure Accuracy
+model_accuracy=sum(predicted_attrition == testing$Attrition)/nrow(testing)
+model_accuracy
 
 #Try different plots
 library(ggplot2)
