@@ -87,6 +87,9 @@ testing_svm = final_data_svm[seq(2,nrow(final_data_svm), 2),]
 #Step:7 Train the model
 model_trained_svm=train(Attrition ~., training_svm, method="svmLinear")
 
+#Step:8 Predict using model and test dataset
+predicted_attrition_svm=predict(model_trained_svm,testing_svm)
+
 #Try different plots
 library(ggplot2)
 
