@@ -32,6 +32,10 @@ importance
 #Step:5 Filter data to contain only selected features
 final_data=cleaned_data[, -c(3,7,8,10, 11,18,19,21,22,23)]
 
+#Step:6 Seperate data into training and test dataset
+training = final_data[seq(1,nrow(final_data), 2),]
+testing = final_data[seq(2,nrow(final_data), 2),]
+
 
 #Try different plots
 library(ggplot2)
