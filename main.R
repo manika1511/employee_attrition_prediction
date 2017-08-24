@@ -40,7 +40,7 @@ testing_kknn = final_data_kknn[seq(2,nrow(final_data_kknn), 2),]
 model_trained_kknn=train(Attrition ~., training_kknn, method="kknn")
 
 #Step:8 Predict using model and test dataset
-predicted_attrition_kknn=predict(model_trained_kknn,testing)
+predicted_attrition_kknn=predict(model_trained_kknn,testing_kknn)
 
 #Step:9 Measure Accuracy (0.84897976)
 model_accuracy_kknn=sum(predicted_attrition_kknn == testing_kknn$Attrition)/nrow(testing_kknn)
@@ -62,6 +62,9 @@ testing_rf = final_data_rf[seq(2,nrow(final_data_rf), 2),]
 
 #Step:7 Train the model
 model_trained_rf=train(Attrition ~., training_rf, method="rf")
+
+#Step:8 Predict using model and test dataset
+predicted_attrition_rf=predict(model_trained_rf,testing_rf)
 
 #Try different plots
 library(ggplot2)
