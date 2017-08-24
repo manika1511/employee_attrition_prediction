@@ -60,6 +60,9 @@ final_data_rf=cleaned_data[, -c(3,5,7,8,10,13,14,16,22,29)]
 training_rf = final_data_rf[seq(1,nrow(final_data_rf), 2),]
 testing_rf = final_data_rf[seq(2,nrow(final_data_rf), 2),]
 
+#Step:7 Train the model
+model_trained_rf=train(Attrition ~., training_rf, method="rf")
+
 #Try different plots
 library(ggplot2)
 
