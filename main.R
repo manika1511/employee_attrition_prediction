@@ -29,6 +29,10 @@ model=train(Attrition~., cleaned_data, method="kknn", preProcess="scale", trCont
 importance=varImp(model, scale=FALSE)
 importance
 
+#Step:5 Filter data to contain only selected features
+final_data=cleaned_data[, -c(3,7,8,10, 11,18,19,21,22,23)]
+
+
 #Try different plots
 library(ggplot2)
 
