@@ -56,6 +56,9 @@ importance_rf
 #Step:5 Filter data to contain only selected features
 final_data_rf=cleaned_data[, -c(3,5,7,8,10,13,14,16,22,29)]
 
+#Step:6 Seperate data into training and test dataset
+training_rf = final_data_rf[seq(1,nrow(final_data_rf), 2),]
+testing_rf = final_data_rf[seq(2,nrow(final_data_rf), 2),]
 
 #Try different plots
 library(ggplot2)
