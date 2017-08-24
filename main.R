@@ -36,6 +36,8 @@ final_data=cleaned_data[, -c(3,7,8,10, 11,18,19,21,22,23)]
 training = final_data[seq(1,nrow(final_data), 2),]
 testing = final_data[seq(2,nrow(final_data), 2),]
 
+#Step:7 Train the model
+model_trained=train(Attrition ~., training, method="kknn")
 
 #Try different plots
 library(ggplot2)
