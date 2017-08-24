@@ -70,6 +70,14 @@ predicted_attrition_rf=predict(model_trained_rf,testing_rf)
 model_accuracy_rf=sum(predicted_attrition_rf == testing_rf$Attrition)/nrow(testing_rf)
 model_accuracy_rf
 
+#Model-2: Support Vector Machines with Linear Kernel
+#Step:4 Feature Selection
+control_svm=trainControl(method="repeatedcv", number=10, repeats=3)
+model_svm=train(Attrition~., cleaned_data, method="svmLinear", preProcess="scale", trControl=control_svm)
+importance_svm=varImp(model_svm, scale=FALSE)
+importance_svm
+
+
 #Try different plots
 library(ggplot2)
 
