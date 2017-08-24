@@ -24,27 +24,27 @@ highlyCorrelated
 
 #Model-1: k-Nearest Neighbors
 #Step:4 Feature Selection
-control=trainControl(method="repeatedcv", number=10, repeats=3)
-model=train(Attrition~., cleaned_data, method="kknn", preProcess="scale", trControl=control)
-importance=varImp(model, scale=FALSE)
-importance
+control_kknn=trainControl(method="repeatedcv", number=10, repeats=3)
+model=train(Attrition~., cleaned_data, method="kknn", preProcess="scale", trControl=control_kknn)
+importance_kknn=varImp(model, scale=FALSE)
+importance_kknn
 
 #Step:5 Filter data to contain only selected features
-final_data=cleaned_data[, -c(3,7,8,10, 11,18,19,21,22,23)]
+final_data_kknn=cleaned_data[, -c(3,7,8,10, 11,18,19,21,22,23)]
 
 #Step:6 Seperate data into training and test dataset
-training = final_data[seq(1,nrow(final_data), 2),]
-testing = final_data[seq(2,nrow(final_data), 2),]
+training_kknn = final_data_kknn[seq(1,nrow(final_data_kknn), 2),]
+testing_kknn = final_data_kknn[seq(2,nrow(final_data_kknn), 2),]
 
 #Step:7 Train the model
-model_trained=train(Attrition ~., training, method="kknn")
+model_trained_kknn=train(Attrition ~., training_kknn, method="kknn")
 
 #Step:8 Predict using model and test dataset
-predicted_attrition=predict(model_trained,testing)
+predicted_attrition_kknn=predict(model_trained_kknn,testing)
 
 #Step:9 Measure Accuracy (0.84897976)
-model_accuracy=sum(predicted_attrition == testing$Attrition)/nrow(testing)
-model_accuracy
+model_accuracy_kknn=sum(predicted_attrition_kknn == testing_kknn$Attrition)/nrow(testing_kknn)
+model_accuracy_kknn
 
 #Model-2: Random Forest
 #Step:4 Feature Selection
