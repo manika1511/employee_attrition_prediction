@@ -84,6 +84,9 @@ final_data_svm=cleaned_data[, -c(3,7,8,10,11,18,19,21,22,23)]
 training_svm = final_data_svm[seq(1,nrow(final_data_svm), 2),]
 testing_svm = final_data_svm[seq(2,nrow(final_data_svm), 2),]
 
+#Step:7 Train the model
+model_trained_svm=train(Attrition ~., training_svm, method="svmLinear")
+
 #Try different plots
 library(ggplot2)
 
