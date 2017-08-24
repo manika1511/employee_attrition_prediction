@@ -80,6 +80,9 @@ importance_svm
 #Step:5 Filter data to contain only selected features
 final_data_svm=cleaned_data[, -c(3,7,8,10,11,18,19,21,22,23)]
 
+#Step:6 Seperate data into training and test dataset
+training_svm = final_data_svm[seq(1,nrow(final_data_svm), 2),]
+testing_svm = final_data_svm[seq(2,nrow(final_data_svm), 2),]
 
 #Try different plots
 library(ggplot2)
