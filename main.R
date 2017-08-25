@@ -18,9 +18,6 @@ cleaned_data[cleaned_data==""]=NA
 cleaned_data=cleaned_data[complete.cases(cleaned_data), ]
 
 #Step:3 Find highly correlated features
-
-
-set.seed(7) #use same set of random numbers
 correlation_matrix=cor(cleaned_data[sapply(cleaned_data, is.numeric)])
 highlyCorrelated = findCorrelation(correlation_matrix, cutoff=0.8)
 highlyCorrelated
