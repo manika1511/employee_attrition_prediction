@@ -61,7 +61,7 @@ final_data_rf=cleaned_data[, -c(3,5,7,8,10,13,14,16,22,29)]
 control_rf=trainControl(method="repeatedcv", number=5, repeats=3)
 
 #Step:7 Train the model
-model_trained_rf=train(Attrition ~., training_rf, method="rf")
+model_trained_rf=train(Attrition ~., training_rf, method="rf", preProcess="scale", trControl=control_rf)
 
 #Step:8 Predict using model and test dataset
 predicted_attrition_rf=predict(model_trained_rf,testing_rf)
