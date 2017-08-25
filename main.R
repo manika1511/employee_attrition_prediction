@@ -17,13 +17,14 @@ cleaned_data[cleaned_data==""]=NA
 #removing all rows with any blank cell
 cleaned_data=cleaned_data[complete.cases(cleaned_data), ]
 
-#Step:3 Find highly correlated features
+#Step:3 Find highly correlated features (optional)
 correlation_matrix=cor(cleaned_data[sapply(cleaned_data, is.numeric)])
 highlyCorrelated = findCorrelation(correlation_matrix, cutoff=0.8)
 highlyCorrelated
 
 #Model-1: k-Nearest Neighbors
 #Step:4 Feature Selection
+#train the model and then find importance of features using varImp
 control_kknn=trainControl(method="repeatedcv", number=10, repeats=3)
 model=train(Attrition~., cleaned_data, method="kknn", preProcess="scale", trControl=control_kknn)
 importance_kknn=varImp(model, scale=FALSE)
