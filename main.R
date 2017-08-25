@@ -25,7 +25,7 @@ highlyCorrelated
 #Model-1: k-Nearest Neighbors
 #Step:4 Feature Selection
 #train the model and then find importance of features using varImp
-control_kknn=trainControl(method="repeatedcv", number=10, repeats=3)
+control_kknn=trainControl(method="repeatedcv", number=5, repeats=3)
 model=train(Attrition~., cleaned_data, method="kknn", preProcess="scale", trControl=control_kknn)
 importance_kknn=varImp(model, scale=FALSE)
 importance_kknn
@@ -33,11 +33,11 @@ importance_kknn
 #Step:5 Filter data to contain only selected features
 final_data_kknn=cleaned_data[, -c(3,7,8,10, 11,18,19,21,22,23)]
 
-#Step:6 Define train control for "kknn" using method as "repeatedcv"
-control_kknn=trainControl(method="repeatedcv", number=10, repeats=3)
+#Step:6 Define train control for "kknn" using method as "repeatedcv"(repeated K-fold cross-validation)
+control_kknn=trainControl(method="repeatedcv", number=5, repeats=3)
 
 #Step:7 Train the model
-model_trained_kknn=train(Attrition ~., training_kknn, method="kknn")
+model_kknn=train(Attrition~., final_data_kknn, method="kknn", preProcess="scale", trControl=control_kknn)
 
 #Step:8 Predict using model and test dataset
 predicted_attrition_kknn=predict(model_trained_kknn,testing_kknn)
