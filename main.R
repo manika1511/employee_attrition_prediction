@@ -1,7 +1,11 @@
 # Model to Predict Employee Attrition
+library(utils)    #for importing the file
+library(mlbench)  #for correlation matrix
+library(caret)    #for models
+library(ggplot2)  #for plotting graphs
 
 #Step:1 Import the dataset 
-library(utils) 
+
 setwd("~/Documents/stanford/datascience/employee_attrition_prediction")
 data = read.csv("HR-Employee-Attrition.csv") 
 
@@ -14,8 +18,7 @@ cleaned_data[cleaned_data==""]=NA
 cleaned_data=cleaned_data[complete.cases(cleaned_data), ]
 
 #Step:3 Find highly correlated features
-library(mlbench)
-library(caret)
+
 
 set.seed(7) #use same set of random numbers
 correlation_matrix=cor(cleaned_data[sapply(cleaned_data, is.numeric)])
@@ -96,7 +99,7 @@ model_accuracy_svm=sum(predicted_attrition_svm == testing_svm$Attrition)/nrow(te
 model_accuracy_svm
 
 #Try different plots
-library(ggplot2)
+
 
 #scatter plot between monthly income, work life balance and attrition
 ggplot(data,aes(data$MonthlyIncome,data$WorkLifeBalance, color=Attrition))+geom_point()
