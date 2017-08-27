@@ -88,6 +88,10 @@ model_trained_nn=train(Attrition ~., final_data_nn, method="dnn", preProcess="sc
 #Step:8 Predict using model and test dataset
 predicted_attrition_nn=predict(model_trained_nn,final_data_nn)
 
+#Step:9 Measure Accuracy (0.8387755)
+model_accuracy_nn=sum(predicted_attrition_nn == final_data_nn$Attrition)/nrow(final_data_nn)
+model_accuracy_nn
+
 #Model-4: Random Forest
 set.seed(7)         #use same set of random numbers everytime you train and run the model
 #Step:4 Feature Selection
