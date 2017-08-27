@@ -47,7 +47,7 @@ model_accuracy_kknn=sum(predicted_attrition_kknn == final_data_kknn$Attrition)/n
 model_accuracy_kknn
 
 #Model-2: Random Forest
-set.seed(7)     #use same set of random numbers everytime you train and run the model
+set.seed(7)         #use same set of random numbers everytime you train and run the model
 #Step:4 Feature Selection
 control_rf=trainControl(method="repeatedcv", number=5, repeats=3)
 model_rf=train(Attrition~., cleaned_data, method="rf", preProcess="scale", trControl=control_rf)
@@ -64,7 +64,7 @@ control_rf=trainControl(method="repeatedcv", number=5, repeats=3)
 model_trained_rf=train(Attrition ~., final_data_rf, method="rf", preProcess="scale", trControl=control_rf)
 
 #Step:8 Predict using model and test dataset
-predicted_attrition_rf=predict(model_trained_rf,testing_rf)
+predicted_attrition_rf=predict(model_trained_rf,final_data_rf)
 
 #Step:9 Measure Accuracy (0.8530612)
 model_accuracy_rf=sum(predicted_attrition_rf == testing_rf$Attrition)/nrow(testing_rf)
