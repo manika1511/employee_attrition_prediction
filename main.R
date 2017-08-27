@@ -22,22 +22,21 @@ correlation_matrix=cor(cleaned_data[sapply(cleaned_data, is.numeric)])
 highlyCorrelated = findCorrelation(correlation_matrix, cutoff=0.8)
 highlyCorrelated
 
+#Step:4 Define train control for models using method as "repeatedcv"(repeated K-fold cross-validation)
+train_control=trainControl(method="repeatedcv", number=5, repeats=3)
+
 #Model-1: k-Nearest Neighbors
 #Step:4 Feature Selection
 #train the model and then find importance of features using varImp
-control_kknn=trainControl(method="repeatedcv", number=5, repeats=3)
-model=train(Attrition~., cleaned_data, method="kknn", preProcess="scale", trControl=control_kknn)
+model=train(Attrition~., cleaned_data, method="kknn", preProcess="scale", trControl=train_control)
 importance_kknn=varImp(model, scale=FALSE)
 importance_kknn
 
 #Step:5 Filter data to contain only selected features
 final_data_kknn=cleaned_data[, -c(3,7,8,10, 11,18,19,21,22,23)]
 
-#Step:6 Define train control for "kknn" using method as "repeatedcv"(repeated K-fold cross-validation)
-control_kknn=trainControl(method="repeatedcv", number=5, repeats=3)
-
-#Step:7 Train the model
-model_trained_kknn=train(Attrition~., final_data_kknn, method="kknn", preProcess="scale", trControl=control_kknn)
+#Step:6 Train the model
+model_trained_kknn=train(Attrition~., final_data_kknn, method="kknn", preProcess="scale", trControl=train_control)
 
 #Step:8 Predict using model and test dataset
 predicted_attrition_kknn=predict(model_trained_kknn,final_data_kknn)
@@ -48,19 +47,15 @@ model_accuracy_kknn
 
 #Model-2: Support Vector Machines with Linear Kernel
 #Step:4 Feature Selection
-control_svm=trainControl(method="repeatedcv", number=5, repeats=3)
-model_svm=train(Attrition~., cleaned_data, method="svmLinear", preProcess="scale", trControl=control_svm)
+model_svm=train(Attrition~., cleaned_data, method="svmLinear", preProcess="scale", trControl=train_control)
 importance_svm=varImp(model_svm, scale=FALSE)
 importance_svm
 
 #Step:5 Filter data to contain only selected features
 final_data_svm=cleaned_data[, -c(3,7,8,10,11,18,19,21,22,23)]
 
-#Step:6 Define train control for "svm" using method as "repeatedcv"(repeated K-fold cross-validation)
-control_svm=trainControl(method="repeatedcv", number=5, repeats=3)
-
-#Step:7 Train the model
-model_trained_svm=train(Attrition ~., final_data_svm, method="svmLinear", preProcess="scale", trControl=control_svm)
+#Step:6 Train the model
+model_trained_svm=train(Attrition ~., final_data_svm, method="svmLinear", preProcess="scale", trControl=train_control)
 
 #Step:8 Predict using model and test dataset
 predicted_attrition_svm=predict(model_trained_svm,final_data_svm)
@@ -71,19 +66,15 @@ model_accuracy_svm
 
 #Model-3: Neural Network
 #Step:4 Feature Selection
-control_nn=trainControl(method="repeatedcv", number=5, repeats=3)
-model_nn=train(Attrition~., cleaned_data, method="dnn", preProcess="scale", trControl=control_nn)
+model_nn=train(Attrition~., cleaned_data, method="dnn", preProcess="scale", trControl=train_control)
 importance_nn=varImp(model_nn, scale=FALSE)
 importance_nn
 
 #Step:5 Filter data to contain only selected features
 final_data_nn=cleaned_data[, -c(3,7,8,10,11,18,19,21,22,23,28)]
 
-#Step:6 Define train control for "dnn" using method as "repeatedcv"(repeated K-fold cross-validation)
-control_nn=trainControl(method="repeatedcv", number=5, repeats=3)
-
 #Step:7 Train the model
-model_trained_nn=train(Attrition ~., final_data_nn, method="dnn", preProcess="scale", trControl=control_nn)
+model_trained_nn=train(Attrition ~., final_data_nn, method="dnn", preProcess="scale", trControl=train_control)
 
 #Step:8 Predict using model and test dataset
 predicted_attrition_nn=predict(model_trained_nn,final_data_nn)
@@ -95,26 +86,21 @@ model_accuracy_nn
 #Model-4: Random Forest
 set.seed(7)         #use same set of random numbers everytime you train and run the model
 #Step:4 Feature Selection
-control_rf=trainControl(method="repeatedcv", number=5, repeats=3)
-model_rf=train(Attrition~., cleaned_data, method="rf", preProcess="scale", trControl=control_rf)
+model_rf=train(Attrition~., cleaned_data, method="rf", preProcess="scale", trControl=train_control)
 importance_rf=varImp(model_rf, scale=FALSE)
 importance_rf
 
 #Step:5 Filter data to contain only selected features
 final_data_rf=cleaned_data[, -c(3,5,7,8,10,13,14,16,22,29)]
 
-#Step:6 Define train control for "rf" using method as "repeatedcv"(repeated K-fold cross-validation)
-control_rf=trainControl(method="repeatedcv", number=5, repeats=3)
-
 #Step:7 Train the model
-model_trained_rf=train(Attrition ~., final_data_rf, method="rf", preProcess="scale", trControl=control_rf)
+model_trained_rf=train(Attrition ~., final_data_rf, method="rf", preProcess="scale", trControl=train_control)
 
 #Step:8 Predict using model and test dataset
 predicted_attrition_rf=predict(model_trained_rf,final_data_rf)
 
 #Step:9 Measure Accuracy (1)
 model_accuracy_rf=sum(predicted_attrition_rf == final_data_rf$Attrition)/nrow(final_data_rf)
-model_accuracy_rf
 
 allModels=resamples(list(KNearestNeighbors=model_trained_kknn,SVM=model_trained_svm,DeepNeuralNet=model_trained_nn,RandomForest=model_trained_rf)) 
 bwplot(allModels,scales=list(relation="free"))
