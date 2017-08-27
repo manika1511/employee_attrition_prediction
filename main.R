@@ -121,8 +121,9 @@ data_for_rule_mining=cleaned_data[,c(2,13,17,20,25,28)]
 cols=c(2,13,17,20,25,28)
 for (i in cols){data_for_rule_mining[,i]=discretize(data_for_rule_mining[,i])}
 rules = apriori(dummy,parameter = list(minlen=2, supp=0.005, conf=0.8), 
-                 appearance = list(rhs=c("Attrition=No", "Attrition=Yes"), default="lhs"))
-
+                 appearance = list(lhs=c("Attrition=No", "Attrition=Yes"), default="rhs"))
+top_rules_by_support=sort(rules, decreasing = TRUE, na.last = NA, by = "support")
+inspect(head(top_rules_by_support, 5)) 
 
 #Try different plots
 
