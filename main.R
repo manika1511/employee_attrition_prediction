@@ -56,7 +56,7 @@ importance_svm
 #Step:5 Filter data to contain only selected features
 final_data_svm=cleaned_data[, -c(3,7,8,10,11,18,19,21,22,23)]
 
-#Step:6 Seperate data into training and test dataset
+#Step:6 Define train control for "svm" using method as "repeatedcv"(repeated K-fold cross-validation)
 control_svm=trainControl(method="repeatedcv", number=10, repeats=3)
 
 #Step:7 Train the model
@@ -79,6 +79,9 @@ importance_nn
 #Step:5 Filter data to contain only selected features
 final_data_nn=cleaned_data[, -c(3,7,8,10,11,18,19,21,22,23,28)]
 
+#Step:6 Define train control for "dnn" using method as "repeatedcv"(repeated K-fold cross-validation)
+control_nn=trainControl(method="repeatedcv", number=5, repeats=3)
+
 #Model-4: Random Forest
 set.seed(7)         #use same set of random numbers everytime you train and run the model
 #Step:4 Feature Selection
@@ -90,7 +93,7 @@ importance_rf
 #Step:5 Filter data to contain only selected features
 final_data_rf=cleaned_data[, -c(3,5,7,8,10,13,14,16,22,29)]
 
-#Step:6 Seperate data into training and test dataset
+#Step:6 Define train control for "rf" using method as "repeatedcv"(repeated K-fold cross-validation)
 control_rf=trainControl(method="repeatedcv", number=5, repeats=3)
 
 #Step:7 Train the model
