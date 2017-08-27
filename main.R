@@ -82,6 +82,9 @@ final_data_nn=cleaned_data[, -c(3,7,8,10,11,18,19,21,22,23,28)]
 #Step:6 Define train control for "dnn" using method as "repeatedcv"(repeated K-fold cross-validation)
 control_nn=trainControl(method="repeatedcv", number=5, repeats=3)
 
+#Step:7 Train the model
+model_trained_nn=train(Attrition ~., final_data_nn, method="dnn", preProcess="scale", trControl=control_nn)
+
 #Model-4: Random Forest
 set.seed(7)         #use same set of random numbers everytime you train and run the model
 #Step:4 Feature Selection
