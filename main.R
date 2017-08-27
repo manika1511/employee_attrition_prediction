@@ -66,8 +66,8 @@ model_trained_rf=train(Attrition ~., final_data_rf, method="rf", preProcess="sca
 #Step:8 Predict using model and test dataset
 predicted_attrition_rf=predict(model_trained_rf,final_data_rf)
 
-#Step:9 Measure Accuracy (0.8530612)
-model_accuracy_rf=sum(predicted_attrition_rf == testing_rf$Attrition)/nrow(testing_rf)
+#Step:9 Measure Accuracy (1)
+model_accuracy_rf=sum(predicted_attrition_rf == final_data_rf$Attrition)/nrow(final_data_rf)
 model_accuracy_rf
 
 #Model-2: Support Vector Machines with Linear Kernel
