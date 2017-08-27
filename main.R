@@ -76,6 +76,9 @@ model_nn=train(Attrition~., cleaned_data, method="dnn", preProcess="scale", trCo
 importance_nn=varImp(model_nn, scale=FALSE)
 importance_nn
 
+#Step:5 Filter data to contain only selected features
+final_data_nn=cleaned_data[, -c(3,7,8,10,11,18,19,21,22,23,28)]
+
 #Model-4: Random Forest
 set.seed(7)         #use same set of random numbers everytime you train and run the model
 #Step:4 Feature Selection
