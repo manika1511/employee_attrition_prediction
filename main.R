@@ -48,7 +48,7 @@ model_accuracy_kknn
 
 #Model-2: Support Vector Machines with Linear Kernel
 #Step:4 Feature Selection
-control_svm=trainControl(method="repeatedcv", number=10, repeats=3)
+control_svm=trainControl(method="repeatedcv", number=5, repeats=3)
 model_svm=train(Attrition~., cleaned_data, method="svmLinear", preProcess="scale", trControl=control_svm)
 importance_svm=varImp(model_svm, scale=FALSE)
 importance_svm
@@ -57,7 +57,7 @@ importance_svm
 final_data_svm=cleaned_data[, -c(3,7,8,10,11,18,19,21,22,23)]
 
 #Step:6 Define train control for "svm" using method as "repeatedcv"(repeated K-fold cross-validation)
-control_svm=trainControl(method="repeatedcv", number=10, repeats=3)
+control_svm=trainControl(method="repeatedcv", number=5, repeats=3)
 
 #Step:7 Train the model
 model_trained_svm=train(Attrition ~., final_data_svm, method="svmLinear", preProcess="scale", trControl=control_svm)
@@ -115,6 +115,9 @@ predicted_attrition_rf=predict(model_trained_rf,final_data_rf)
 #Step:9 Measure Accuracy (1)
 model_accuracy_rf=sum(predicted_attrition_rf == final_data_rf$Attrition)/nrow(final_data_rf)
 model_accuracy_rf
+
+allModels=resamples(list(KNearestNeighbors=model_trained_kknn,SVM=model_trained_svm,DeepNeuralNet=model_trained_nn,RandomForest=model_trained_rf)) 
+bwplot(allModels,scales=list(relation="free"))
 
 #Try different plots
 
