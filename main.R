@@ -85,6 +85,9 @@ control_nn=trainControl(method="repeatedcv", number=5, repeats=3)
 #Step:7 Train the model
 model_trained_nn=train(Attrition ~., final_data_nn, method="dnn", preProcess="scale", trControl=control_nn)
 
+#Step:8 Predict using model and test dataset
+predicted_attrition_nn=predict(model_trained_nn,final_data_nn)
+
 #Model-4: Random Forest
 set.seed(7)         #use same set of random numbers everytime you train and run the model
 #Step:4 Feature Selection
