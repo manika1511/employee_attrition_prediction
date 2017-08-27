@@ -38,10 +38,10 @@ final_data_kknn=cleaned_data[, -c(3,7,8,10, 11,18,19,21,22,23)]
 #Step:6 Train the model
 model_trained_kknn=train(Attrition~., final_data_kknn, method="kknn", preProcess="scale", trControl=train_control)
 
-#Step:8 Predict using model and test dataset
+#Step:7 Predict using model and dataset
 predicted_attrition_kknn=predict(model_trained_kknn,final_data_kknn)
 
-#Step:9 Measure Accuracy (0.9142857)
+#Step:8 Measure Accuracy (0.9142857)
 model_accuracy_kknn=sum(predicted_attrition_kknn == final_data_kknn$Attrition)/nrow(final_data_kknn)
 model_accuracy_kknn
 
@@ -57,10 +57,10 @@ final_data_svm=cleaned_data[, -c(3,7,8,10,11,18,19,21,22,23)]
 #Step:6 Train the model
 model_trained_svm=train(Attrition ~., final_data_svm, method="svmLinear", preProcess="scale", trControl=train_control)
 
-#Step:8 Predict using model and test dataset
+#Step:7 Predict using model and dataset
 predicted_attrition_svm=predict(model_trained_svm,final_data_svm)
 
-#Step:9 Measure Accuracy (0.8693878)
+#Step:8 Measure Accuracy (0.8693878)
 model_accuracy_svm=sum(predicted_attrition_svm == final_data_svm$Attrition)/nrow(final_data_svm)
 model_accuracy_svm
 
@@ -73,13 +73,13 @@ importance_nn
 #Step:5 Filter data to contain only selected features
 final_data_nn=cleaned_data[, -c(3,7,8,10,11,18,19,21,22,23,28)]
 
-#Step:7 Train the model
+#Step:6 Train the model
 model_trained_nn=train(Attrition ~., final_data_nn, method="dnn", preProcess="scale", trControl=train_control)
 
-#Step:8 Predict using model and test dataset
+#Step:7 Predict using model and dataset
 predicted_attrition_nn=predict(model_trained_nn,final_data_nn)
 
-#Step:9 Measure Accuracy (0.8387755)
+#Step:8 Measure Accuracy (0.8387755)
 model_accuracy_nn=sum(predicted_attrition_nn == final_data_nn$Attrition)/nrow(final_data_nn)
 model_accuracy_nn
 
@@ -93,13 +93,13 @@ importance_rf
 #Step:5 Filter data to contain only selected features
 final_data_rf=cleaned_data[, -c(3,5,7,8,10,13,14,16,22,29)]
 
-#Step:7 Train the model
+#Step:6 Train the model
 model_trained_rf=train(Attrition ~., final_data_rf, method="rf", preProcess="scale", trControl=train_control)
 
-#Step:8 Predict using model and test dataset
+#Step:7 Predict using model and dataset
 predicted_attrition_rf=predict(model_trained_rf,final_data_rf)
 
-#Step:9 Measure Accuracy (1)
+#Step:8 Measure Accuracy (1)
 model_accuracy_rf=sum(predicted_attrition_rf == final_data_rf$Attrition)/nrow(final_data_rf)
 
 allModels=resamples(list(KNearestNeighbors=model_trained_kknn,SVM=model_trained_svm,DeepNeuralNet=model_trained_nn,RandomForest=model_trained_rf)) 
