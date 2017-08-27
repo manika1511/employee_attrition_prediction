@@ -69,6 +69,13 @@ predicted_attrition_svm=predict(model_trained_svm,final_data_svm)
 model_accuracy_svm=sum(predicted_attrition_svm == final_data_svm$Attrition)/nrow(final_data_svm)
 model_accuracy_svm
 
+#Model-3: Neural Network
+#Step:4 Feature Selection
+control_nn=trainControl(method="repeatedcv", number=5, repeats=3)
+model_nn=train(Attrition~., cleaned_data, method="dnn", preProcess="scale", trControl=control_nn)
+importance_nn=varImp(model_nn, scale=FALSE)
+importance_nn
+
 #Model-4: Random Forest
 set.seed(7)         #use same set of random numbers everytime you train and run the model
 #Step:4 Feature Selection
