@@ -116,8 +116,9 @@ allModels=resamples(list(KNearestNeighbour=model_trained_kknn, SVM=model_trained
 bwplot(allModels,scales=list(relation="free"))
 
 #Apply Association Rule mining to get some rules governing Attrition
+library(arules)
 data_for_rule_mining=cleaned_data[,c(2,13,17,20,25,28)]
-
+rules=apriori(data_for_rule_mining)
 
 
 
