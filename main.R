@@ -84,17 +84,16 @@ final_data_svm=cleaned_data[, -c(3,7,8,10,11,18,19,21,22,23)]
 control_svm=trainControl(method="repeatedcv", number=10, repeats=3)
 
 #Step:7 Train the model
-model_trained_svm=train(Attrition ~., training_svm, method="svmLinear")
+model_trained_svm=train(Attrition ~., final_data_svm, method="svmLinear", preProcess="scale", trControl=control_svm)
 
 #Step:8 Predict using model and test dataset
-predicted_attrition_svm=predict(model_trained_svm,testing_svm)
+predicted_attrition_svm=predict(model_trained_svm,final_data_svm)
 
-#Step:9 Measure Accuracy (0.8802721)
-model_accuracy_svm=sum(predicted_attrition_svm == testing_svm$Attrition)/nrow(testing_svm)
+#Step:9 Measure Accuracy (0.8693878)
+model_accuracy_svm=sum(predicted_attrition_svm == final_data_svm$Attrition)/nrow(final_data_svm)
 model_accuracy_svm
 
 #Try different plots
-
 
 #scatter plot between monthly income, work life balance and attrition
 ggplot(data,aes(data$MonthlyIncome,data$WorkLifeBalance, color=Attrition))+geom_point()
