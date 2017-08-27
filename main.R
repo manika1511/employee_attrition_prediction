@@ -81,8 +81,7 @@ importance_svm
 final_data_svm=cleaned_data[, -c(3,7,8,10,11,18,19,21,22,23)]
 
 #Step:6 Seperate data into training and test dataset
-training_svm = final_data_svm[seq(1,nrow(final_data_svm), 2),]
-testing_svm = final_data_svm[seq(2,nrow(final_data_svm), 2),]
+control_svm=trainControl(method="repeatedcv", number=10, repeats=3)
 
 #Step:7 Train the model
 model_trained_svm=train(Attrition ~., training_svm, method="svmLinear")
