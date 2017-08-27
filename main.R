@@ -28,20 +28,23 @@ train_control=trainControl(method="repeatedcv", number=5, repeats=3)
 #Model-1: k-Nearest Neighbors
 #Step:4 Feature Selection
 #train the model and then find importance of features using varImp
-model=train(Attrition~., cleaned_data, method="kknn", preProcess="scale", trControl=train_control)
-importance_kknn=varImp(model, scale=FALSE)
+model_kknn=train(Attrition~., cleaned_data, method="kknn", preProcess="scale", trControl=train_control)
+importance_kknn=varImp(model_kknn, scale=FALSE)
 importance_kknn
 
 #Step:5 Filter data to contain only selected features
 final_data_kknn=cleaned_data[, -c(3,7,8,10, 11,18,19,21,22,23)]
+nrow(final_data_kknn)
+ncol(final_data_kknn)
 
 #Step:6 Train the model
+set.seed(7)         #use same set of random numbers everytime you train and run the model
 model_trained_kknn=train(Attrition~., final_data_kknn, method="kknn", preProcess="scale", trControl=train_control)
 
 #Step:7 Predict using model and dataset
 predicted_attrition_kknn=predict(model_trained_kknn,final_data_kknn)
 
-#Step:8 Measure Accuracy (0.9142857)
+#Step:8 Measure Accuracy (0.9183673)
 model_accuracy_kknn=sum(predicted_attrition_kknn == final_data_kknn$Attrition)/nrow(final_data_kknn)
 model_accuracy_kknn
 
@@ -53,6 +56,8 @@ importance_svm
 
 #Step:5 Filter data to contain only selected features
 final_data_svm=cleaned_data[, -c(3,7,8,10,11,18,19,21,22,23)]
+nrow(final_data_svm)
+ncol(final_data_svm)
 
 #Step:6 Train the model
 model_trained_svm=train(Attrition ~., final_data_svm, method="svmLinear", preProcess="scale", trControl=train_control)
@@ -71,7 +76,9 @@ importance_nn=varImp(model_nn, scale=FALSE)
 importance_nn
 
 #Step:5 Filter data to contain only selected features
-final_data_nn=cleaned_data[, -c(3,7,8,10,11,18,19,21,22,23,28)]
+final_data_nn=cleaned_data[, -c(3, 7,8,10,11,18,19,21,22,23)]
+nrow(final_data_nn)
+ncol(final_data_nn)
 
 #Step:6 Train the model
 model_trained_nn=train(Attrition ~., final_data_nn, method="dnn", preProcess="scale", trControl=train_control)
@@ -84,7 +91,6 @@ model_accuracy_nn=sum(predicted_attrition_nn == final_data_nn$Attrition)/nrow(fi
 model_accuracy_nn
 
 #Model-4: Random Forest
-set.seed(7)         #use same set of random numbers everytime you train and run the model
 #Step:4 Feature Selection
 model_rf=train(Attrition~., cleaned_data, method="rf", preProcess="scale", trControl=train_control)
 importance_rf=varImp(model_rf, scale=FALSE)
@@ -92,6 +98,8 @@ importance_rf
 
 #Step:5 Filter data to contain only selected features
 final_data_rf=cleaned_data[, -c(3,5,7,8,10,13,14,16,22,29)]
+nrow(final_data_rf)
+ncol(final_data_rf)
 
 #Step:6 Train the model
 model_trained_rf=train(Attrition ~., final_data_rf, method="rf", preProcess="scale", trControl=train_control)
@@ -102,7 +110,8 @@ predicted_attrition_rf=predict(model_trained_rf,final_data_rf)
 #Step:8 Measure Accuracy (1)
 model_accuracy_rf=sum(predicted_attrition_rf == final_data_rf$Attrition)/nrow(final_data_rf)
 
-allModels=resamples(list(KNearestNeighbors=model_trained_kknn,SVM=model_trained_svm,DeepNeuralNet=model_trained_nn,RandomForest=model_trained_rf)) 
+#allModels=resamples(list(KNearestNeighbors=model_trained_kknn,SVM=model_trained_svm,DeepNeuralNet=model_trained_nn,RandomForest=model_trained_rf)) 
+allModels=resamples(list(KNN=model_trained_kknn, svm=model_trained_svm))
 bwplot(allModels,scales=list(relation="free"))
 
 #Try different plots
