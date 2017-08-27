@@ -115,6 +115,13 @@ model_accuracy_rf
 allModels=resamples(list(KNearestNeighbour=model_trained_kknn, SVM=model_trained_svm, NeuralNetwork=model_trained_nn, RandomForest=model_trained_rf))
 bwplot(allModels,scales=list(relation="free"))
 
+#Apply Association Rule mining to get some rules governing Attrition
+data_for_rule_mining=cleaned_data[,c(2,13,17,20,25,28)]
+
+
+
+
+
 #Try different plots
 
 #scatter plot between monthly income, work life balance and attrition
