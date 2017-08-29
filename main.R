@@ -19,7 +19,7 @@ cleaned_data=cleaned_data[complete.cases(cleaned_data), ]
 
 #Step:3 Find highly correlated features (optional)
 correlation_matrix=cor(cleaned_data[sapply(cleaned_data, is.numeric)])
-highlyCorrelated = findCorrelation(correlation_matrix, cutoff=0.8)
+highlyCorrelated = findCorrelation(correlation_matrix, cutoff=0.6)
 highlyCorrelated
 
 #Step:4 Define train control for models using method as "repeatedcv"(repeated K-fold cross-validation)
@@ -34,8 +34,6 @@ importance_kknn
 
 #Step:5 Filter data to contain only selected features
 final_data_kknn=cleaned_data[, -c(3,7,8,10, 11,18,19,21,22,23)]
-nrow(final_data_kknn)
-ncol(final_data_kknn)
 
 #Step:6 Train the model
 set.seed(7)         #use same set of random numbers everytime you train and run the model
@@ -119,8 +117,10 @@ bwplot(allModels,scales=list(relation="free"))
 library(arules)
 data_for_rule_mining=cleaned_data[,c(2,13,17,20,25,28)]
 cols=c(2,13,17,20,25,28)
-for (i in cols){data_for_rule_mining[,i]=discretize(data_for_rule_mining[,i])}
-rules = apriori(dummy,parameter = list(minlen=2, supp=0.005, conf=0.8), 
+for (i in cols) {data_for_rule_mining[,i]=discretize(data_for_rule_mining[,i])}
+
+#for (i in cols){data_for_rule_mining[,i]=discretize(data_for_rule_mining[,i])}
+rules = apriori(data_for_rule_mining,parameter = list(minlen=2, supp=0.005, conf=0.8), 
                  appearance = list(lhs=c("Attrition=No", "Attrition=Yes"), default="rhs"))
 top_rules_by_support=sort(rules, decreasing = TRUE, na.last = NA, by = "support")
 inspect(head(top_rules_by_support, 5)) 
