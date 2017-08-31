@@ -115,15 +115,14 @@ bwplot(allModels,scales=list(relation="free"))
 
 #Apply Association Rule mining to get some rules governing Attrition
 library(arules)
-data_for_rule_mining=cleaned_data[,c(2,13,17,20,25,28)]
-cols=c(2,13,17,20,25,28)
-for (i in cols) {data_for_rule_mining[,i]=discretize(data_for_rule_mining[,i])}
-
-#for (i in cols){data_for_rule_mining[,i]=discretize(data_for_rule_mining[,i])}
+data_for_rule_mining=data[,c(29,19,23,32,15,2,33,35,1,28,18)]
+cols=c(1, 2, 4, 5, 7, 8, 9, 10)
+for (i in cols){data_for_rule_mining[,i]=discretize(data_for_rule_mining[,i])}
 rules = apriori(data_for_rule_mining,parameter = list(minlen=2, supp=0.005, conf=0.8), 
-                 appearance = list(lhs=c("Attrition=No", "Attrition=Yes"), default="rhs"))
-top_rules_by_support=sort(rules, decreasing = TRUE, na.last = NA, by = "support")
-inspect(head(top_rules_by_support, 5)) 
+                 appearance = list(rhs=c("Attrition=Yes", "Attrition=No"), default="lhs"))
+top_rules_by_support=sort(rules, decreasing = TRUE, na.last = NA, by = "lift")
+inspect(head(top_rules_by_support, 50)) 
+inspect(top_rules_by_support)
 
 #Try different plots
 
@@ -133,7 +132,7 @@ ggplot(data,aes(data$MonthlyIncome,data$WorkLifeBalance, color=Attrition))+geom_
 ggplot(data,aes(data$MonthlyIncome,data$JobLevel, color=Attrition))+geom_point()
 
 #violin plot between attrition and job satisfaction
-ggplot(data, aes(x=Attrition, y=JobSatisfaction, fill=Attrition)) + geom_violin() + theme_bw()
+ggplot(data, aes(x=Attrition, y=JobSatisfaction, fill=Attrition)) + geom_boxplot() + theme_bw()
 
 #boxplot between monthly income and attrition
 ggplot(data,aes(Attrition,MonthlyIncome,fill=Attrition))+geom_boxplot()
@@ -145,6 +144,22 @@ ggplot(data,aes(Attrition,MonthlyIncome,color=Attrition))+geom_jitter()
 ggplot(data,aes(data$MonthlyIncome,data$JobLevel,fill=Attrition))+geom_tile()
 
 #boxplot between monthly income and attrition
-ggplot(data,aes(Attrition,YearsSinceLastPromotion,fill=Attrition))+geom_jitter()
+ggplot(data,aes(Attrition,YearsSinceLastPromotion,fill=Attrition))+geom_violin()
 ggplot(data,aes(Attrition,MaritalStatus,color=Attrition))+geom_jitter()
 
+#scatter plot between JobLevel attrition
+ggplot(data,aes(data$Attrition, data$JobLevel, color=Attrition))+geom_jitter()
+
+#scatter plot between TotalWorkingYears attrition
+ggplot(data,aes(Attrition,TotalWorkingYears,fill=Attrition))+geom_boxplot()
+
+#scatter plot between OverTime attrition
+ggplot(data,aes(Attrition,OverTime,color=Attrition))+geom_jitter()
+
+ggplot(data,aes(data$YearsSinceLastPromotion,data$YearsAtCompany, color=Attrition))+geom_point(size=4, alpha=0.6)
+ggplot(data,aes(Attrition,YearsSinceLastPromotion,color=Attrition))+geom_jitter()
+
+ggplot(data,aes(data$YearsInCurrentRole,data$YearsAtCompany, color=Attrition))+geom_point()
+
+ggplot(data,aes(data$YearsSinceLastPromotion,data$YearsInCurrentRole, color=Attrition))+geom_point(
+  size=4, alpha=0.6)
