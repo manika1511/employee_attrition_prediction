@@ -128,17 +128,3 @@ model_accuracy_rf
 #allModels=resamples(list(KNearestNeighbors=model_trained_kknn,SVM=model_trained_svm,DeepNeuralNet=model_trained_nn,RandomForest=model_trained_rf)) 
 allModels=resamples(list(KNearestNeighbour=model_trained_kknn, SVM=model_trained_svm, NeuralNetwork=model_trained_nn, RandomForest=model_trained_rf))
 bwplot(allModels,scales=list(relation="free"))
-
-#Apply Association Rule mining to get some rules governing Attrition
-library(arules)
-data_for_rule_mining=cleaned_data
-cols=c(6)
-for (i in cols){data_for_rule_mining[,i]=discretize(data_for_rule_mining[,i])}
-rules = apriori(data_for_rule_mining,parameter = list(minlen=2, supp=0.005, conf=0.8), 
-                 appearance = list(rhs=c("Attrition=Yes", "Attrition=No"), default="lhs"))
-top_rules_by_support=sort(rules, decreasing = TRUE, na.last = NA, by = "lift")
-inspect(head(top_rules_by_support, 50)) 
-inspect(top_rules_by_support)
-
-#Try different plots
-
