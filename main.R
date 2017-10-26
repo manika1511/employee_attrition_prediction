@@ -10,12 +10,30 @@ setwd("~/Documents/stanford/datascience/employee_attrition_prediction")
 data = read.csv("HR-Employee-Attrition.csv") 
 
 #Step:2 Cleaning data
+
 #Removing columns which have same value for all
 cleaned_data=data[,-c(9,10,22,27)]
 #replacing all blank cells with NA
 cleaned_data[cleaned_data==""]=NA
 #removing all rows with any blank cell
 cleaned_data=cleaned_data[complete.cases(cleaned_data), ]
+
+#Step:3 Data Exploration
+
+#scatter plot between monthly income, work life balance and attrition
+ggplot(data,aes(data$MonthlyIncome,data$WorkLifeBalance, color=Attrition))+geom_point()
+
+#scatter plot between monthly income, JobLevel and attrition
+ggplot(data,aes(data$MonthlyIncome,data$JobLevel, color=Attrition))+geom_point()
+
+#boxplot between monthly income and attrition
+ggplot(data,aes(Attrition,MonthlyIncome,fill=Attrition))+geom_boxplot()
+
+#boxplot between monthly income and attrition
+ggplot(data,aes(Attrition,YearsSinceLastPromotion,fill=Attrition))+geom_violin()
+
+#Correlation between Marital status and Attrition
+ggplot(data,aes(Attrition,MaritalStatus,color=Attrition))+geom_jitter()
 
 #Step:3 Find highly correlated features (optional)
 correlation_matrix=cor(cleaned_data[sapply(cleaned_data, is.numeric)])
@@ -33,7 +51,8 @@ importance_kknn=varImp(model_kknn, scale=FALSE)
 importance_kknn
 
 #Step:5 Filter data to contain only selected features
-final_data_kknn=cleaned_data[, -c(3,7,8,10, 11,18,19,21,22,23)]
+#final_data_kknn=cleaned_data[, -c(3,7,8,10, 11,18,19,21,22,23)]
+final_data_kknn=cleaned_data[, -c(3,7,8,10, 11,18,19,23)]
 
 #Step:6 Train the model
 set.seed(7)         #use same set of random numbers everytime you train and run the model
@@ -53,9 +72,8 @@ importance_svm=varImp(model_svm, scale=FALSE)
 importance_svm
 
 #Step:5 Filter data to contain only selected features
-final_data_svm=cleaned_data[, -c(3,7,8,10,11,18,19,21,22,23)]
-nrow(final_data_svm)
-ncol(final_data_svm)
+#final_data_svm=cleaned_data[, -c(3,7,8,10,11,18,19,21,22,23)]
+final_data_svm=cleaned_data[, -c(3,7,8,10,11,18,19,23)]
 
 #Step:6 Train the model
 model_trained_svm=train(Attrition ~., final_data_svm, method="svmLinear", trControl=train_control)
@@ -74,9 +92,8 @@ importance_nn=varImp(model_nn, scale=FALSE)
 importance_nn
 
 #Step:5 Filter data to contain only selected features
-final_data_nn=cleaned_data[, -c(3, 7,8,10,11,18,19,21,22,23)]
-nrow(final_data_nn)
-ncol(final_data_nn)
+#final_data_nn=cleaned_data[, -c(3, 7,8,10,11,18,19,21,22,23)]
+final_data_nn=cleaned_data[, -c(3, 7,8,10,11,18,19,23)]
 
 #Step:6 Train the model
 model_trained_nn=train(Attrition ~., final_data_nn, method="dnn", trControl=train_control)
@@ -95,9 +112,8 @@ importance_rf=varImp(model_rf, scale=FALSE)
 importance_rf
 
 #Step:5 Filter data to contain only selected features
-final_data_rf=cleaned_data[, -c(3,5,7,8,10,13,14,16,22,29)]
-nrow(final_data_rf)
-ncol(final_data_rf)
+#final_data_rf=cleaned_data[, -c(3,5,7,8,10,13,14,16,22,29)]
+final_data_rf=cleaned_data[, -c(3,5,7,8,10,13,14,16,29)]
 
 #Step:6 Train the model
 model_trained_rf=train(Attrition ~., final_data_rf, method="rf", trControl=train_control)
@@ -115,8 +131,8 @@ bwplot(allModels,scales=list(relation="free"))
 
 #Apply Association Rule mining to get some rules governing Attrition
 library(arules)
-data_for_rule_mining=data[,c(29,19,23,32,15,2,33,35,1,28,18)]
-cols=c(1, 2, 4, 5, 7, 8, 9, 10)
+data_for_rule_mining=cleaned_data
+cols=c(6)
 for (i in cols){data_for_rule_mining[,i]=discretize(data_for_rule_mining[,i])}
 rules = apriori(data_for_rule_mining,parameter = list(minlen=2, supp=0.005, conf=0.8), 
                  appearance = list(rhs=c("Attrition=Yes", "Attrition=No"), default="lhs"))
@@ -126,40 +142,3 @@ inspect(top_rules_by_support)
 
 #Try different plots
 
-#scatter plot between monthly income, work life balance and attrition
-ggplot(data,aes(data$MonthlyIncome,data$WorkLifeBalance, color=Attrition))+geom_point()
-#scatter plot between monthly income, JobLevel and attrition
-ggplot(data,aes(data$MonthlyIncome,data$JobLevel, color=Attrition))+geom_point()
-
-#violin plot between attrition and job satisfaction
-ggplot(data, aes(x=Attrition, y=JobSatisfaction, fill=Attrition)) + geom_boxplot() + theme_bw()
-
-#boxplot between monthly income and attrition
-ggplot(data,aes(Attrition,MonthlyIncome,fill=Attrition))+geom_boxplot()
-
-#jitter plot between monthly income and attrition
-ggplot(data,aes(Attrition,MonthlyIncome,color=Attrition))+geom_jitter()
-
-#heat map between monthly income, joblevel, attrition
-ggplot(data,aes(data$MonthlyIncome,data$JobLevel,fill=Attrition))+geom_tile()
-
-#boxplot between monthly income and attrition
-ggplot(data,aes(Attrition,YearsSinceLastPromotion,fill=Attrition))+geom_violin()
-ggplot(data,aes(Attrition,MaritalStatus,color=Attrition))+geom_jitter()
-
-#scatter plot between JobLevel attrition
-ggplot(data,aes(data$Attrition, data$JobLevel, color=Attrition))+geom_jitter()
-
-#scatter plot between TotalWorkingYears attrition
-ggplot(data,aes(Attrition,TotalWorkingYears,fill=Attrition))+geom_boxplot()
-
-#scatter plot between OverTime attrition
-ggplot(data,aes(Attrition,OverTime,color=Attrition))+geom_jitter()
-
-ggplot(data,aes(data$YearsSinceLastPromotion,data$YearsAtCompany, color=Attrition))+geom_point(size=4, alpha=0.6)
-ggplot(data,aes(Attrition,YearsSinceLastPromotion,color=Attrition))+geom_jitter()
-
-ggplot(data,aes(data$YearsInCurrentRole,data$YearsAtCompany, color=Attrition))+geom_point()
-
-ggplot(data,aes(data$YearsSinceLastPromotion,data$YearsInCurrentRole, color=Attrition))+geom_point(
-  size=4, alpha=0.6)
